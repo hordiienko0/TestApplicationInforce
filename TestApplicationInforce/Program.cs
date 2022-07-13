@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TestApplicationInforce.Areas.Identity.Data;
 using TestApplicationInforce.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TestApplicationInforceContextConnection") ?? throw new InvalidOperationException("Connection string 'TestApplicationInforceContextConnection' not found.");
@@ -7,8 +8,19 @@ var connectionString = builder.Configuration.GetConnectionString("TestApplicatio
 builder.Services.AddDbContext<TestApplicationInforceContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<TestApplicationInforceUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<TestApplicationInforceContext>();
+builder.Services.AddIdentity<TestApplicationInforceUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireLowercase = false;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+    .AddEntityFrameworkStores<TestApplicationInforceContext>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -16,6 +28,8 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+AdminAccount.SetupAdminAccounts(app);
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -27,12 +41,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=ShortUrlStorage}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
 app.Run();
