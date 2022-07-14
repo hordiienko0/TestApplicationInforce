@@ -1,6 +1,8 @@
-﻿@using TestApplicationInforce
+﻿@using Microsoft.AspNetCore.Identity
+@using TestApplicationInforce
 @using TestApplicationInforce.Areas.Identity.Data
 @using TestApplicationInforce.Models
+@inject SignInManager<TestApplicationInforceUser> SignInManager
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
