@@ -1,4 +1,5 @@
-﻿using TestApplicationInforce.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TestApplicationInforce.Data;
 using TestApplicationInforce.Models;
 using TestApplicationInforce.Services.Interfaces;
 
@@ -10,9 +11,11 @@ namespace TestApplicationInforce.Services
         {
         }
 
-        public List<UrlModel> AllShortUrls()
+        public async Task<List<UrlModel>>  AllShortUrls()
         {
-            return _context.Urls.ToList();
+            var urlList = await _context.Urls.ToListAsync();
+
+            return urlList;
         }
     }
 }

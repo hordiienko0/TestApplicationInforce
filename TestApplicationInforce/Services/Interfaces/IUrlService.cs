@@ -4,6 +4,7 @@ namespace TestApplicationInforce.Services.Interfaces
 {
     public interface IUrlService
     {
-        List<UrlModel> AllShortUrls();
+       Task<List<UrlModel>> AllShortUrls();
+
     }
 }
