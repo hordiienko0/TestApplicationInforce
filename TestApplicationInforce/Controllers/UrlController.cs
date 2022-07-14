@@ -31,48 +31,55 @@ namespace TestApplicationInforce.Controllers
         }
 
 
-        public async Task<IActionResult> Edit(int id = 1)
-        {
-            if (id == 1)
-                return View(new UrlModel());
-            else
-            {
-                var urlModel = await _context.Urls.FindAsync(id);
-                if (urlModel == null)
-                {
-                    return NotFound();
-                }
-                return View(urlModel);
-            }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, UrlModel urlModel)
-        {
-            if (ModelState.IsValid)
-            {
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null || _context.Urls == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-                try
-                {
-                    _context.Update(urlModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UrlModelExists(urlModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+        //    var urlModel = await _context.Urls.FindAsync(id);
+        //    if (urlModel == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(urlModel);
+        //}
 
-                return Json(new { isValid = true, html = RenderRazorView.RenderRazorViewToString(this, "Url", _context.Urls.ToList()) });
-            }
-            return Json(new { isValid = false, html = RenderRazorView.RenderRazorViewToString(this, "Edit", urlModel) });
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Link,ShortedUrl,Token,Description,Created")] UrlModel urlModel)
+        //{
+        //    if (id != urlModel.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(urlModel);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!UrlModelExists(urlModel.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+            
+
+        //        return Json(new { isValid = true, html = RenderRazorView.RenderRazorViewToString(this, "Url", _context.Urls.ToList()) });
+        //    }
+        //    return Json(new { isValid = false, html = RenderRazorView.RenderRazorViewToString(this, "Edit", urlModel) });
+        //}
 
         private bool UrlModelExists(int id)
         {

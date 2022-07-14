@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
+﻿
 $(function () {
     $("#loaderbody").addClass('hide');
 
@@ -21,7 +17,6 @@ showInPopup = (url, title) => {
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
-            // to make popup draggable
             $('.modal-dialog').draggable({
                 handle: ".modal-header"
             });
@@ -51,7 +46,6 @@ jQueryAjaxPost = form => {
                 console.log(err)
             }
         })
-        //to prevent default form submit event
         return false;
     } catch (ex) {
         console.log(ex)
@@ -78,7 +72,5 @@ jQueryAjaxDelete = form => {
             console.log(ex)
         }
     }
-
-    //prevent default form submit event
     return false;
 }
