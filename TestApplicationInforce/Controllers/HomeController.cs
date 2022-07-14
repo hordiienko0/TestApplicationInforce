@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TestApplicationInforce.Data;
 using TestApplicationInforce.Models;
+using TestApplicationInforce.Services.Interfaces;
 
 namespace TestApplicationInforce.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly TestApplicationInforceContext _context;
+        private readonly IUrlService _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(TestApplicationInforceContext context, IUrlService service)
         {
-            _logger = logger;
+            _context = context;
+            _service = service;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var allUrls = _service.AllShortUrls();
+            return View(allUrls);
         }
 
         public IActionResult Privacy()
@@ -23,10 +28,6 @@ namespace TestApplicationInforce.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }

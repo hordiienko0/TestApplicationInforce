@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TestApplicationInforce.Areas.Identity.Data;
 using TestApplicationInforce.Data;
+using TestApplicationInforce.Services;
+using TestApplicationInforce.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TestApplicationInforceContextConnection") ?? throw new InvalidOperationException("Connection string 'TestApplicationInforceContextConnection' not found.");
 
@@ -23,6 +26,10 @@ builder.Services.AddIdentity<TestApplicationInforceUser, IdentityRole>(options =
     .AddDefaultUI();
 
 // Add services to the container.
+builder.Services.AddScoped<IShortenerService, ShortenerService>();
+builder.Services.AddScoped<IUrlService, UrlService>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

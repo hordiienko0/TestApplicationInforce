@@ -8,9 +8,9 @@ namespace TestApplicationInforce.Models
 
         [Required]
         public string Link { get; set; }
+        public string ShortedUrl { get; set; }
         public string Token { get; set; }
-        public int Clicked { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = "DefaultValue";
         public DateTime Created { get; set; }
 
         public IList<UserUrlModel> UserUrl { get; set; }
