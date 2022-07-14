@@ -10,21 +10,21 @@
         {
             <thead class="thead-ligh">
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model=>model.Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model=>model.ShortedUrl)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model=>model.Description)
-                    </th>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <th>
-                            <a asp-controller="UrlShorter" asp-action="Index" asp-route-path="">
-                                ClickMe
+                            Click "Shorten Url"
+                        </th>
+                        <th>
+                            <a asp-controller="UrlShorter" asp-action="Index" asp-route-path="" class="btn btn-primary">
+                                Shorten Url
                             </a>
+                        </th>
+                    }
+                    else
+                    {
+                        <th>
+                            To get list of Urls you must login
                         </th>
                     }
                 </tr>
@@ -46,11 +46,14 @@
                     <th>
                         @Html.DisplayNameFor(model=>model.Created)
                     </th>
-                    <th>
-                        <a asp-controller="UrlShorter" asp-action="Index" asp-route-path="" class="btn btn-primary">
-                            Shorten Url
-                        </a>
-                    </th>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <th>
+                            <a asp-controller="UrlShorter" asp-action="Index" asp-route-path="" class="btn btn-primary">
+                                Shorten Url
+                            </a>
+                        </th>
+                    }
                 </tr>
             </thead>
             <tbody>
