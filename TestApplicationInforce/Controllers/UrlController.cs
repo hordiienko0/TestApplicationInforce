@@ -47,39 +47,29 @@ namespace TestApplicationInforce.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountNumber,Link,ShortedUrl,Token,Description,Created")] UrlModel urlModel)
+        public async Task<IActionResult> Edit(int id, UrlModel urlModel)
         {
             if (ModelState.IsValid)
             {
-                //Insert
-                if (id == 0)
-                {
-                    urlModel.Created = DateTime.Now;
-                    _context.Add(urlModel);
-                    await _context.SaveChangesAsync();
 
-                }
-                //Update
-                else
+                try
                 {
-                    try
+                    _context.Update(urlModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UrlModelExists(urlModel.Id))
                     {
-                        _context.Update(urlModel);
-                        await _context.SaveChangesAsync();
+                        return NotFound();
                     }
-                    catch (DbUpdateConcurrencyException)
+                    else
                     {
-                        if (!UrlModelExists(urlModel.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        throw;
                     }
                 }
-                return Json(new { isValid = true, html = RenderRazorView.RenderRazorViewToString(this, "Home", _context.Urls.ToList()) });
+
+                return Json(new { isValid = true, html = RenderRazorView.RenderRazorViewToString(this, "Url", _context.Urls.ToList()) });
             }
             return Json(new { isValid = false, html = RenderRazorView.RenderRazorViewToString(this, "Edit", urlModel) });
         }

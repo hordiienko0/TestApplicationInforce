@@ -14,10 +14,18 @@ namespace TestApplicationInforce.Services
 
         public bool Add(string link, string token)
         {
-            var shortedUrl = ($"https://localhost:5000/{token}");
-            var url = new UrlModel { Created = DateTime.Now, ShortedUrl = shortedUrl, Link = link, Token = token };
-            _context.Urls.Add(url);
-            return _context.SaveChanges() == 1;
+            try
+            {
+                var shortedUrl = ($"https://localhost:5000/{token}");
+                var url = new UrlModel { Created = DateTime.Now, ShortedUrl = shortedUrl, Link = link, Token = token };
+                _context.Urls.Add(url);
+                return _context.SaveChanges() == 1;
+            }
+            catch
+            {
+                throw;
+            }
+            
         }
 
         public bool AlreadyExists(string link)
